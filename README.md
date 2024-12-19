@@ -17,9 +17,17 @@
 
 ---
 
-## Notes
-
 - You have been tasked with creating a Symfony app to act as a caching layer between the Open Meteo API and the employee dashboard.
+
+## My Solution
+
+1. Created a Symfony app as per the docs: https://symfony.com/doc/current/setup.html. I decided not to include the `--webapp` option to make the project smaller.
+2. Installed the Symfony HTTP client and PHPUnit via `symfony/test-pack`.
+3. Created a controller `src/Controller/ForecastController.php` to handle the API requests with no authentication or request parameters. The route is defined as `/forecast`.
+4. The file system cache adapter is used to store the API data from Open Meteo for 5 minutes. When the cache is unavailable or becomes stale, a hard-coded endpoint is sent a request using the SF HTTP client and the response is cached.
+5. The API data is then returned as an `application/json` response to the front end.
+
+## Notes
 
 I would use file caching as it is a simple solution. Downsides of my approach could be the I/O overhead of using the file system.
 If throughput was a concern, utilising memcached or redis is a great option, or we could use a database adapter.
